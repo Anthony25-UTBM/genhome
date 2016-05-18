@@ -6,7 +6,7 @@ class UIToolbar {
     this.room_list = new UIRoomList();
   }
 
-  add_events_listeners() {
+  add_event_listeners() {
 
   }
 }
@@ -18,7 +18,7 @@ class UIRoomList {
 
     this.rooms = {};
 
-    this.add_events_listeners();
+    this.add_event_listeners();
   }
 
   add_room(name) {
@@ -31,7 +31,7 @@ class UIRoomList {
     this.elmt.removeChild(this.rooms[name]);
   }
 
-  add_events_listeners() {
+  add_event_listeners() {
     this.add_button.addEventListener('click', this.on_add);
   }
 
@@ -58,5 +58,90 @@ class UIElements {
     });
 
     return li;
+  }
+}
+
+class UIRoomDialog {
+  constructor() {
+    this.elmt = document.querySelector(".js-room-modal");
+    this.confirm_button = this.elmt.querySelector(".modal__actions--primary");
+    this.cancel_button = this.elmt.querySelector(".modal__actions--secondary");
+
+    this.block_clicks = this.block_clicks.bind(this);
+    this.on_confirm = this.on_confirm.bind(this);
+    this.on_cancel = this.on_cancel.bind(this);
+    this.confirm = () => {};
+    this.cancel = () => {};
+  }
+
+  show(confirm, cancel) {
+    this.elmt.classList.add('modal--visible');
+
+    this.confirm = confirm.bind(this);
+    this.cancel = cancel.bind(this);
+
+    this.add_event_listeners();
+  }
+
+  hide() {
+    this.elmt.classList.remove('modal--visible');
+    this.remove_event_listeners();
+  }
+
+  add_event_listeners() {
+    this.elmt.addEventListener('click', this.block_clicks);
+    this.confirm_button.addEventListener('click', this.on_confirm);
+    this.cancel_button.addEventListener('click', this.on_cancel);
+  }
+
+  remove_event_listeners() {
+    this.confirm = () => {};
+    this.cancel = () => {};
+    this.confirm_button.removeEventListener('click', this.on_confirm);
+    this.cancel_button.removeEventListener('click', this.on_cancel);
+  }
+
+  on_confirm() {
+    this.confirm();
+  }
+
+  on_cancel() {
+    this.cancel();
+  }
+
+  block_clicks (evt) {
+    evt.stopPropagation();
+  }
+}
+
+class UIDialogs {
+  constructor() {
+    this.elmt = document.querySelector(".js-modal-container");
+
+    this.hide = this.hide.bind(this);
+
+    this.room_dialog = new UIRoomDialog();
+
+    this.add_event_listeners();
+  }
+
+  show(confirm = () => {}, cancel = () => {}) {
+    this.elmt.classList.add('modal__container--visible');
+    this.room_dialog.show(() => {
+      confirm();
+      this.hide();
+    }, () => {
+      cancel();
+      this.hide();
+    });
+  }
+
+  hide() {
+    this.elmt.classList.remove('modal__container--visible');
+    this.room_dialog.hide();
+  }
+
+  add_event_listeners() {
+    this.elmt.addEventListener('click', this.hide);
   }
 }

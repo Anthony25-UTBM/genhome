@@ -25,7 +25,7 @@ html, body {
 .toolbar__container {
   background: #F5F5F5;
   flex: 0 0 400px;
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -44,6 +44,7 @@ html, body {
 .toolbar__divider {
   border-width: 1px 0 0 0;
   border-color: rgba(0,0,0,0.12);
+  margin: 8px 0;
 }
 
 .toolbar__list {
@@ -85,7 +86,7 @@ html, body {
   background-color: #CCC;
 }
 
-.modal {
+.modal__container {
   position: fixed;
   left: 0;
   top: 0;
@@ -93,13 +94,17 @@ html, body {
   height: 100%;
   overflow: hidden;
   pointer-events: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal--visible {
+.modal__container--visible {
   pointer-events: auto;
 }
 
-.modal::before {
+.modal__container::before {
   content: '';
   display: block;
   position: absolute;
@@ -111,4 +116,73 @@ html, body {
   opacity: 0;
   will-change: opacity;
   transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
+}
+
+.modal__container--visible::before {
+  opacity: 1;
+}
+
+.modal {
+  visibility: hidden;
+  transform: translateY(-100vw);
+  transition: visibility 0s .2s, transform .15s ease;
+
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-flow: column nowrap;
+
+  background: white;
+}
+
+.modal--visible {
+  visibility: visible;
+  transform: translateY(0);
+  transition: transform .15s ease;
+}
+
+.modal__header {
+  margin: 0;
+  padding: 16px;
+}
+
+.modal__form {
+  display: flex;
+  flex-flow: column nowrap;
+
+  margin-bottom: 16px;
+}
+
+.form__input {
+  border: none;
+  height: 48px;
+}
+
+.input__container {
+  display: flex;
+  align-items: stretch;
+}
+
+.form__icon {
+  margin: 12px;
+}
+
+.form__divider {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.modal__actions {
+  height: 48px;
+  display: flex;
+}
+
+.modal__actions button {
+  height: 48px;
+  line-height: 48px;
+  padding: 0 16px;
+  border: none;
+  background: none;
+  flex: 1;
+  cursor: inherit;
+  font-size: 16px;
 }

@@ -3,6 +3,7 @@
 class GenHome {
   constructor(args) {
     this.toolbar = new UIToolbar();
+    this.dialogs = new UIDialogs();
   }
 
   add_event_listeners() {
@@ -11,7 +12,7 @@ class GenHome {
 
   add_room() {
     console.log("Adding Room");
-    this.toolbar.room_list.add_room(`Chambre ${room_counter++}`);
+    this.dialogs.show(() => this.toolbar.room_list.add_room(`Chambre ${room_counter++}`));
   }
 
   edit_room(name) {
