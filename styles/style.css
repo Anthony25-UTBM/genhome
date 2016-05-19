@@ -10,6 +10,10 @@ html, body {
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
+:focus {
+  outline: none;
+}
+
 .dashboard {
   width: 100%;
   height: 100%;
@@ -57,6 +61,7 @@ html, body {
   height: 48px;
   line-height: 48px;
   padding: 0 16px;
+  transition: background-color .15s ease;
 }
 
 .toolbar__list li:hover {
@@ -78,6 +83,7 @@ html, body {
   padding: 0;
   border: none;
   background: none;
+  transition: inherit;
   flex: 0 0 48px;
   cursor: inherit;
 }
@@ -130,6 +136,7 @@ html, body {
   box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-flow: column nowrap;
+  flex: 0 0 400px;
 
   background: white;
 }
@@ -154,7 +161,15 @@ html, body {
 
 .form__input {
   border: none;
-  height: 48px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  transition: border-color .3s ease;
+  height: 32px;
+  margin: 8px;
+}
+
+.form__input:focus {
+  border-color: #8BC34A;
+  border-width: 2px;
 }
 
 .input__container {
@@ -162,11 +177,17 @@ html, body {
   align-items: stretch;
 }
 
+.input__container .form__input {
+  flex: 1;
+}
+
 .form__icon {
   margin: 12px;
 }
 
 .form__divider {
+  border-width: 1px 0 0 0;
+  border-color: rgba(0,0,0,0.12);
   width: 100%;
   margin: 8px 0;
 }
@@ -176,13 +197,26 @@ html, body {
   display: flex;
 }
 
-.modal__actions button {
+.modal__action {
   height: 48px;
   line-height: 48px;
   padding: 0 16px;
   border: none;
   background: none;
   flex: 1;
-  cursor: inherit;
+  cursor: pointer;
   font-size: 16px;
+  transition: background-color .15s ease;
+}
+
+.modal__action--primary {
+  background-color: #8BC34A;
+}
+
+.modal__action--primary:hover {
+  background-color: #76AE35;
+}
+
+.modal__action--secondary:hover {
+  background-color: #EAEAEA;
 }

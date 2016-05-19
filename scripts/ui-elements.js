@@ -64,8 +64,8 @@ class UIElements {
 class UIRoomDialog {
   constructor() {
     this.elmt = document.querySelector(".js-room-modal");
-    this.confirm_button = this.elmt.querySelector(".modal__actions--primary");
-    this.cancel_button = this.elmt.querySelector(".modal__actions--secondary");
+    this.confirm_button = this.elmt.querySelector(".modal__action--primary");
+    this.cancel_button = this.elmt.querySelector(".modal__action--secondary");
 
     this.block_clicks = this.block_clicks.bind(this);
     this.on_confirm = this.on_confirm.bind(this);
