@@ -22,7 +22,7 @@ class GenHome {
     console.log("Editing Room", name);
     this.dialogs.show_room((room) => {
       if(name != room.name) {
-        this.toolbar.room_list.remove_room(name);
+        this.remove_room(name);
         this.toolbar.room_list.add_room(room.name);
         delete rooms[name];
       }

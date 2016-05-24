@@ -11,7 +11,7 @@ html, body {
 }
 
 :focus {
-  outline: none;
+  outline: none; /*Focus-ring Chrome*/
 }
 
 .dashboard {
@@ -64,7 +64,8 @@ html, body {
   transition: background-color .15s ease;
 }
 
-.toolbar__list li:hover {
+.toolbar__list li:hover,
+.toolbar__list li:focus {
   background-color: #E0E0E0;
 }
 
@@ -90,6 +91,7 @@ html, body {
   cursor: inherit;
 }
 
+.list-item__button:hover,
 .list-item__button:hover {
   background-color: #CCC;
 }
@@ -133,7 +135,7 @@ html, body {
 .modal {
   visibility: hidden;
   transform: translateY(-100vw);
-  transition: visibility 0s .2s, transform .15s ease;
+  transition: visibility 0s .2s, transform .3s ease;
 
   box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -146,7 +148,7 @@ html, body {
 .modal--visible {
   visibility: visible;
   transform: translateY(0);
-  transition: transform .15s ease;
+  transition: transform .3s ease;
 }
 
 .modal__header {
@@ -161,10 +163,12 @@ html, body {
 
 .form__input {
   border: none;
+  box-shadow: none; /* Focus-ring FF */
   border-bottom: 1px solid rgba(0,0,0,0.12);
   transition: border-color .3s ease;
   height: 32px;
   margin: 8px;
+  inline-size: auto; /* input(type=number) width in FF not at (100% - margin) even with align-items: strech; by default */
 }
 
 .form__input:focus {

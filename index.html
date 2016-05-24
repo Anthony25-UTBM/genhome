@@ -15,7 +15,7 @@
       <nav class="js-toolbar toolbar">
         <h2 class="toolbar__header">Pièces</h2>
         <ul class="js-room-list toolbar__list">
-          <li class="toolbar__list-item">
+          <li class="toolbar__list-item" tabindex="0">
             <label class="list-item__label">Nouvelle pièce ...</label>
           </li>
         </ul>
@@ -36,13 +36,13 @@
     <article class="modal modal_room-modal js-room-modal">
       <h3 class="modal__header">Ajout d'une pièce</h3>
       <form class="modal__form" name="room-dialog">
-        <input class="form__input" type="text" name="name" placeholder="Nom" />
+        <input class="form__input" type="text" name="name" placeholder="Nom" required="" />
         <div class="input__container">
-          <input class="form__input" type="text" name="width" placeholder="Largeur" />
+          <input class="form__input" type="number" name="width" placeholder="Largeur" />
           <span class="form__icon material-icons">close</span>
-          <input class="form__input" type="text" name="height" placeholder="Hauteur" />
+          <input class="form__input" type="number" name="height" placeholder="Hauteur" />
         </div>
-        <input class="form__input" type="text" name="window_count" placeholder="Nombre de fenêtres" />
+        <input class="form__input" type="number" name="window_count" placeholder="Nombre de fenêtres" />
         <div class="form__actions">
           <button class="form__action form__action--primary">Create</button>
           <button class="form__action form__action--secondary" type="button">Cancel</button>

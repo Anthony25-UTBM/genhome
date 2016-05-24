@@ -49,6 +49,7 @@ class UIElements {
 
     const li = document.createElement("li");
     li.classList.add('toolbar__list-item');
+    li.setAttribute('tabindex', 0);
     li.innerHTML = `<label class="list-item__label">${name}</label><button class="list-item__button" type="button"><span class="material-icons">close</span></button>`;
 
     li.addEventListener('click', () => on_edit());
@@ -102,15 +103,15 @@ class UIRoomDialog {
 
   add_event_listeners() {
     this.elmt.addEventListener('click', this.block_clicks);
-    this.confirm_button.addEventListener('click', this.on_confirm);
     this.cancel_button.addEventListener('click', this.on_cancel);
+    this.form.addEventListener('submit', this.on_confirm);
   }
 
   remove_event_listeners() {
     this.confirm = () => {};
     this.cancel = () => {};
-    this.confirm_button.removeEventListener('click', this.on_confirm);
     this.cancel_button.removeEventListener('click', this.on_cancel);
+    this.form.removeEventListener('submit', this.on_confirm);
   }
 
   on_confirm(evt) {
