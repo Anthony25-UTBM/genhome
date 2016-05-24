@@ -64,8 +64,9 @@ class UIElements {
 class UIRoomDialog {
   constructor() {
     this.elmt = document.querySelector(".js-room-modal");
-    this.confirm_button = this.elmt.querySelector(".modal__action--primary");
-    this.cancel_button = this.elmt.querySelector(".modal__action--secondary");
+    this.confirm_button = this.elmt.querySelector(".form__action--primary");
+    this.cancel_button = this.elmt.querySelector(".form__action--secondary");
+    this.form = document.forms.item('room-dialog');
 
     this.block_clicks = this.block_clicks.bind(this);
     this.on_confirm = this.on_confirm.bind(this);
@@ -74,8 +75,18 @@ class UIRoomDialog {
     this.cancel = () => {};
   }
 
-  show(confirm, cancel) {
+  show(confirm, cancel, room) {
     this.elmt.classList.add('modal--visible');
+
+
+    if(room) {
+      console.log('Room:', room);
+
+      this.form.name.value = room.name;
+      this.form.width.value = room.width;
+      this.form.height.value = room.height;
+      this.form.window_count.value = room.window_count;
+    }
 
     this.confirm = confirm.bind(this);
     this.cancel = cancel.bind(this);
@@ -85,6 +96,7 @@ class UIRoomDialog {
 
   hide() {
     this.elmt.classList.remove('modal--visible');
+    this.form.reset();
     this.remove_event_listeners();
   }
 
@@ -101,8 +113,16 @@ class UIRoomDialog {
     this.cancel_button.removeEventListener('click', this.on_cancel);
   }
 
-  on_confirm() {
-    this.confirm();
+  on_confirm(evt) {
+    evt.preventDefault();
+
+    const name = this.form.name.value;
+    const width = this.form.width.value;
+    const height = this.form.height.value;
+    const window_count = this.form.window_count.value;
+
+
+    this.confirm({name, width, height, window_count});
   }
 
   on_cancel() {
@@ -120,25 +140,33 @@ class UIDialogs {
 
     this.hide = this.hide.bind(this);
 
-    this.room_dialog = new UIRoomDialog();
+    this.dialogs = {
+      room: new UIRoomDialog()
+    };
 
     this.add_event_listeners();
   }
 
-  show(confirm = () => {}, cancel = () => {}) {
+  show_room(confirm, cancel, room) {
+    this.show(this.dialogs.room, confirm, cancel, room);
+  }
+
+  show(dialog, confirm = () => {}, cancel = () => {}, data) {
     this.elmt.classList.add('modal__container--visible');
-    this.room_dialog.show(() => {
-      confirm();
+    dialog.show((details) => {
+      confirm(details);
       this.hide();
     }, () => {
       cancel();
       this.hide();
-    });
+    }, data);
   }
 
   hide() {
     this.elmt.classList.remove('modal__container--visible');
-    this.room_dialog.hide();
+    for(let dialog in this.dialogs) {
+      this.dialogs[dialog].hide();
+    }
   }
 
   add_event_listeners() {

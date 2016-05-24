@@ -77,6 +77,8 @@ html, body {
   display: inline-block;
   flex: 1;
   cursor: inherit;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .list-item__button {
@@ -155,8 +157,6 @@ html, body {
 .modal__form {
   display: flex;
   flex-flow: column nowrap;
-
-  margin-bottom: 16px;
 }
 
 .form__input {
@@ -192,12 +192,13 @@ html, body {
   margin: 8px 0;
 }
 
-.modal__actions {
+.form__actions {
+  margin-top: 16px;
   height: 48px;
   display: flex;
 }
 
-.modal__action {
+.form__action {
   height: 48px;
   line-height: 48px;
   padding: 0 16px;
@@ -209,14 +210,14 @@ html, body {
   transition: background-color .15s ease;
 }
 
-.modal__action--primary {
+.form__action--primary {
   background-color: #8BC34A;
 }
 
-.modal__action--primary:hover {
+.form__action--primary:hover {
   background-color: #76AE35;
 }
 
-.modal__action--secondary:hover {
+.form__action--secondary:hover {
   background-color: #EAEAEA;
 }
