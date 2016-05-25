@@ -21,8 +21,7 @@
         </ul>
         <hr class="toolbar__divider" />
         <h2 class="toolbar__header">Contraintes</h2>
-        <ul class="toolbar__list">
-          <li></li>
+        <ul class="js-contraint-list toolbar__list">
         </ul>
         <hr class="toolbar__divider" />
         <h2 class="toolbar__header">Stats projet</h2>
@@ -36,13 +35,29 @@
     <article class="modal modal_room-modal js-room-modal">
       <h3 class="modal__header">Ajout d'une pièce</h3>
       <form class="modal__form" name="room-dialog">
-        <input class="form__input" type="text" name="name" placeholder="Nom" required="" />
-        <div class="input__container">
-          <input class="form__input" type="number" name="width" placeholder="Largeur" />
-          <span class="form__icon material-icons">close</span>
-          <input class="form__input" type="number" name="height" placeholder="Hauteur" />
+        <div class="form__group">
+          <div class="input__container">
+            <label class="form__label" for="room-modal__name">Nom</label>
+            <input class="form__input" id="room-modal__name" type="text" name="name" required="" autocomplete="off">
+          </div>
         </div>
-        <input class="form__input" type="number" name="window_count" placeholder="Nombre de fenêtres" />
+        <div class="form__group">
+          <div class="input__container">
+            <label class="form__label" for="room-modal__length">Longueur (en m)</label>
+            <input class="form__input" id="room-modal__length" type="number" name="length" required="" min="0">
+          </div>
+          <span class="form__icon material-icons">close</span>
+          <div class="input__container">
+            <label class="form__label" for="room-modal__width">Largeur (en m)</label>
+            <input class="form__input" id="room-modal__width" type="number" name="width" required="" min="0">
+          </div>
+        </div>
+        <div class="form__group">
+          <div class="input__container">
+            <label class="form__label" for="room-modal__window-count">Nombre de fenêtres</label>
+            <input class="form__input" id="room-modal__window-count" type="number" name="window_count" min="0">
+          </div>
+        </div>
         <div class="form__actions">
           <button class="form__action form__action--primary">Create</button>
           <button class="form__action form__action--secondary" type="button">Cancel</button>

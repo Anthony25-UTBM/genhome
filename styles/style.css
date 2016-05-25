@@ -92,7 +92,7 @@ html, body {
 }
 
 .list-item__button:hover,
-.list-item__button:hover {
+.list-item__button:focus {
   background-color: #CCC;
 }
 
@@ -124,8 +124,7 @@ html, body {
   height: 100%;
   background: rgba(0,0,0,0.4);
   opacity: 0;
-  will-change: opacity;
-  transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
+  transition: opacity .3s cubic-bezier(0,0,0.3,1);
 }
 
 .modal__container--visible::before {
@@ -161,13 +160,40 @@ html, body {
   flex-flow: column nowrap;
 }
 
+.form__group {
+  display: flex;
+  padding: 8px;
+}
+
+.input__container {
+  display: flex;
+  flex: 1;
+}
+
+.form__label {
+  position: absolute;
+  line-height: 32px;
+  transition: transform .2s ease, opacity .2s ease, color .2s ease;
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.form__label--active {
+  transform: scale(.75) translateY(-18px);
+  color: #33691E;
+}
+
+.form__label--hidden {
+  opacity: 0;
+}
+
 .form__input {
   border: none;
   box-shadow: none; /* Focus-ring FF */
   border-bottom: 1px solid rgba(0,0,0,0.12);
   transition: border-color .3s ease;
   height: 32px;
-  margin: 8px;
+  flex: 1 1 auto;
   inline-size: auto; /* input(type=number) width in FF not at (100% - margin) even with align-items: strech; by default */
 }
 
@@ -176,17 +202,8 @@ html, body {
   border-width: 2px;
 }
 
-.input__container {
-  display: flex;
-  align-items: stretch;
-}
-
-.input__container .form__input {
-  flex: 1;
-}
-
 .form__icon {
-  margin: 12px;
+  margin: 4px;
 }
 
 .form__divider {
@@ -218,10 +235,12 @@ html, body {
   background-color: #8BC34A;
 }
 
-.form__action--primary:hover {
+.form__action--primary:hover,
+.form__action--primary:focus {
   background-color: #76AE35;
 }
 
-.form__action--secondary:hover {
+.form__action--secondary:hover,
+.form__action--secondary:focus {
   background-color: #EAEAEA;
 }

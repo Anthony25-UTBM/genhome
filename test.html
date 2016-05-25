@@ -8,7 +8,7 @@
 <body>
 
       <form class="modal__form" name="room-dialog">
-        <input class="form__input" type="text" name="name" placeholder="Nom" required="" />
+        <input class="form__input" type="text" name="name" placeholder="Nom" />
         <div class="input__container">
           <input class="form__input" type="number" name="width" placeholder="Largeur" />
           <span class="form__icon material-icons">close</span>
@@ -20,5 +20,17 @@
           <button class="form__action form__action--secondary" type="button">Cancel</button>
         </div>
       </form>
+      <script type="text/javascript">
+      "use strict";
+        document.querySelector('.form__action--secondary').addEventListener('click', function (evt) {
+          document.querySelector('[name=name]').value = "Coucou";
+        });
+        document.querySelector('[name=name]').addEventListener('change', function(evt) {
+          console.log('change event triggered');
+        });
+        document.querySelector('[name=name]').addEventListener('input', function(evt) {
+          console.log('input event triggered');
+        });
+      </script>
 </body>
 </html>

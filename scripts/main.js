@@ -1,7 +1,7 @@
 "use strict";
 
 class GenHome {
-  constructor(args) {
+  constructor() {
     this.toolbar = new UIToolbar();
     this.dialogs = new UIDialogs();
   }
