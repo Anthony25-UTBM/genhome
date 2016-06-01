@@ -184,7 +184,8 @@ html, body {
 .form__label {
   position: absolute;
   line-height: 32px;
-  transition: transform .2s ease, opacity .2s ease, color .2s ease;
+  transition-property: transform, opacity, color;
+  transition-duration: .2s;
   transform-origin: top left;
   pointer-events: none;
   color: black;
@@ -203,7 +204,7 @@ html, body {
   border: none;
   box-shadow: none; /* Focus-ring FF */
   border-bottom: 1px solid rgba(0,0,0,0.12);
-  transition: border-color .3s ease;
+  transition: border-color .2s ease;
   height: 32px;
   flex: 1 1 auto;
   inline-size: auto; /* input(type=number) width in FF not at (100% - margin) even with align-items: strech; by default */
@@ -219,7 +220,8 @@ html, body {
   line-height: 20px;
   display: inline-block;
   color: currentColor;
-  transition: height .2s ease, opacity .2s ease;
+  transition-property: height, opacity, color;
+  transition-duration: .2s;
   height: 0;
   opacity: 0;
 }

@@ -229,7 +229,8 @@ class UIRoomDialog {
 
     this.inputs.name.add_error("Ce nom n'est pas disponible", 'input', (name) => {
       let test = false;
-      for(let room in rooms)
+      // Get room name
+      for(let room in gen_home.rooms)
         test = test || room == name;
       return test;
     });
