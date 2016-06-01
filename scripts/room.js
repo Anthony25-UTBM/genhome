@@ -1,10 +1,15 @@
 "using strict";
 
+var ORIENTATION = {
+    horizontal: 0,
+    vertical: 1
+};
+
 class Opening {
   constructor(orientation, posx=0, posy=0) {
+    orientation = orientation;
     this.posx = posx;
     this.posy = posy;
-    this.orientation = orientation;
   }
 }
 
