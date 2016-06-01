@@ -167,7 +167,18 @@ html, body {
 
 .input__container {
   display: flex;
+  flex-flow: column nowrap;
   flex: 1;
+  color: #689F38;
+}
+
+.input__container--error {
+  color: #F44336;
+}
+
+.input__container--error .form__input,
+.input__container--error .form__input:focus {
+  border-color: #F44336;
 }
 
 .form__label {
@@ -176,11 +187,12 @@ html, body {
   transition: transform .2s ease, opacity .2s ease, color .2s ease;
   transform-origin: top left;
   pointer-events: none;
+  color: black;
 }
 
 .form__label--active {
   transform: scale(.75) translateY(-18px);
-  color: #33691E;
+  color: currentColor;
 }
 
 .form__label--hidden {
@@ -198,8 +210,23 @@ html, body {
 }
 
 .form__input:focus {
-  border-color: #8BC34A;
+  border-color: #689F38;
   border-width: 2px;
+}
+
+.form__error {
+  font-size: 12px;
+  line-height: 20px;
+  display: inline-block;
+  color: currentColor;
+  transition: height .2s ease, opacity .2s ease;
+  height: 0;
+  opacity: 0;
+}
+
+.form__error--active {
+  height: 20px;
+  opacity: 1;
 }
 
 .form__icon {

@@ -50,7 +50,6 @@ class UIRoomList {
   }
 
   on_keyup (evt) {
-    console.log(evt);
     if(evt.key == " ")
       this.on_add();
   }
@@ -60,6 +59,8 @@ class UIInput {
   constructor(selector) {
     this.input = document.querySelector(selector);
     this.label = this.input.previousElementSibling;
+    this.container = this.input.parentElement;
+    this.errors = [];
 
     this.on_focus = this.on_focus.bind(this);
     this.on_blur = this.on_blur.bind(this);
@@ -69,6 +70,8 @@ class UIInput {
     this.deactivate = this.deactivate.bind(this);
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
+    this.checkValidity = this.checkValidity.bind(this);
+    this.add_error = this.add_error.bind(this);
 
     this.add_event_listeners();
   }
@@ -100,6 +103,47 @@ class UIInput {
   hide() {
     this.label.classList.add('form__label--hidden');
     return this;
+  }
+
+  checkValidity() {
+    return this.errors.every((error) => !error.active);
+  }
+
+  add_error(message, event_name, test) {
+
+    const error = {
+      message: message,
+      event_name: event_name,
+      test: test,
+      node: UIElements.create_form_error_message(message),
+      active: false
+    };
+
+    error.listener = function() {
+      if(test(this.input.value)) {
+        error.node.classList.add('form__error--active');
+        error.active = true;
+      } else {
+        error.node.classList.remove('form__error--active');
+        error.active = false;
+      }
+
+      this.container.classList.toggle("input__container--error", this.errors.some((error) => error.active));
+    };
+
+    this.input.addEventListener(event_name, error.listener.bind(this));
+    this.container.appendChild(error.node);
+
+    return this.errors.push(error);
+  }
+
+  remove_error(message) {
+    const i = this.errors.findIndex((error) => error.message == message);
+
+    let error = this.errors.splice(i, 1);
+
+    this.input.removeEventListener(error.event_name, error.listener);
+    this.container.removeChild(error.node);
   }
 
   add_event_listeners() {
@@ -159,6 +203,14 @@ class UIElements {
 
     return li;
   }
+
+  static create_form_error_message(message) {
+    const span = document.createElement('span');
+    span.className = "form__error";
+    span.innerText = message;
+
+    return span;
+  }
 }
 
 class UIRoomDialog {
@@ -175,11 +227,26 @@ class UIRoomDialog {
       window_count: new UIInput('#room-modal__window-count')
     };
 
+    this.inputs.name.add_error("Ce nom n'est pas disponible", 'input', (name) => {
+      let test = false;
+      for(let room in rooms)
+        test = test || room == name;
+      return test;
+    });
+
+    this.checkValidity = this.checkValidity.bind(this);
     this.block_clicks = this.block_clicks.bind(this);
     this.on_confirm = this.on_confirm.bind(this);
     this.on_cancel = this.on_cancel.bind(this);
     this.confirm = () => {};
     this.cancel = () => {};
+  }
+
+  checkValidity() {
+    let validity = true;
+    for(let input_name in this.inputs)
+      validity = validity && this.inputs[input_name].checkValidity();
+    return validity;
   }
 
   show(confirm, cancel, room) {
@@ -229,6 +296,9 @@ class UIRoomDialog {
 
   on_confirm(evt) {
     evt.preventDefault();
+
+    if(!this.checkValidity())
+      return;
 
     const name = this.form.name.value;
     const width = this.form.width.value;
