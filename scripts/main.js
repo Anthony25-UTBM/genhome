@@ -28,13 +28,23 @@ class GenHome {
         this.toolbar.room_list.add_room(room.name);
       }
       this.rooms[room.name] = room;
+      gen_home.currentRoom = undefined;
     }, undefined, this.rooms[name]);
+    gen_home.currentRoom = name;
   }
 
   remove_room(name) {
     console.log("Removing Room", name);
     this.toolbar.room_list.remove_room(name);
     delete this.rooms[name];
+  }
+
+  add_constraint() {
+    console.log("Adding Constraint");
+    // this.dialogs.show_room((room) => {
+    //   this.rooms[room.name] = room;
+    //   this.toolbar.room_list.add_room(room.name);
+    // });
   }
 }
 

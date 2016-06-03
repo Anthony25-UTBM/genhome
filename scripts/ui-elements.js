@@ -4,6 +4,7 @@ class UIToolbar {
   constructor() {
     this.elmt = document.querySelector('.js-toolbar');
     this.room_list = new UIRoomList();
+    this.constraint_list = new UIConstraintList();
   }
 
   add_event_listeners() {
@@ -11,47 +12,67 @@ class UIToolbar {
   }
 }
 
-class UIRoomList {
-  constructor() {
-    this.elmt = document.querySelector('.js-room-list');
+class UIList {
+  constructor(element_selector) {
+    if (new.target === UIList)
+      throw new TypeError("Cannot construct UIList instances directly");
+
+    this.elmt = document.querySelector(element_selector);
     this.add_button = this.elmt.lastElementChild;
 
-    this.rooms = {};
-
-    this.on_keydown = this.on_keydown.bind(this);
-    this.on_keyup = this.on_keyup.bind(this);
+    this.on_add = this.on_add.bind(this);
 
     this.add_event_listeners();
-  }
-
-  add_room(name) {
-    const room = UIElements.create_room_list_item(name, gen_home.edit_room.bind(gen_home, name), gen_home.remove_room.bind(gen_home, name));
-    this.rooms[name] = room;
-    this.elmt.insertBefore(room, this.add_button);
-  }
-
-  remove_room(name) {
-    this.elmt.removeChild(this.rooms[name]);
   }
 
   add_event_listeners() {
     this.add_button.addEventListener('click', this.on_add);
     this.add_button.addEventListener('keydown', this.on_keydown);
-    this.add_button.addEventListener('keyup', this.on_keyup);
+  }
+}
+
+class UIRoomList extends UIList {
+  constructor() {
+    super('.js-room-list');
+
+    this.roomElmts = {};
+  }
+
+  add_room(name) {
+    const room = UIElements.create_room_list_item(name, gen_home.edit_room.bind(gen_home, name), gen_home.remove_room.bind(gen_home, name));
+    this.roomElmts[name] = room;
+    this.elmt.insertBefore(room, this.add_button);
+  }
+
+  remove_room(name) {
+    this.elmt.removeChild(this.roomElmts[name]);
+    delete this.roomElmts[name];
   }
 
   on_add() {
     gen_home.add_room();
   }
+}
 
-  on_keydown(evt) {
-    if(evt.key == "Enter")
-      this.on_add();
+class UIConstraintList extends UIList {
+  constructor() {
+    super('.js-constraint-list');
+
+    this.constraintElmts = {};
   }
 
-  on_keyup (evt) {
-    if(evt.key == " ")
-      this.on_add();
+  add_constraint(type, room1, room2) {
+    //TODO
+    this.roomElmts[id] = constraint;
+  }
+
+  remove_constraint(id) {
+    this.elmt.removeChild(this.constraintElmts[id]);
+    delete this.constraintElmts[id];
+  }
+
+  on_add() {
+    gen_home.add_constraint();
   }
 }
 
@@ -181,24 +202,12 @@ class UIElements {
     li.innerHTML = `<label class="list-item__label">${name}</label><button class="list-item__button" type="button" tabindex="0"><span class="material-icons">close</span></button>`;
 
     li.addEventListener('click', () => on_edit());
-    li.addEventListener('keydown', (evt) => evt.key == "Enter"? on_edit(): () => {});
-    li.addEventListener('keyup', (evt) => evt.key == " "? on_edit(): () => {});
 
     const button = li.querySelector('button');
 
     button.addEventListener('click', (evt) => {
       evt.stopPropagation();
       on_remove();
-    });
-    button.addEventListener('keydown', (evt) => {
-      evt.stopPropagation();
-      if(evt.key == "Enter")
-        on_remove();
-    });
-    button.addEventListener('keyup', (evt) => {
-      evt.stopPropagation();
-      if(evt.key == " ")
-        on_remove();
     });
 
     return li;
@@ -213,34 +222,24 @@ class UIElements {
   }
 }
 
-class UIRoomDialog {
-  constructor() {
-    this.elmt = document.querySelector(".js-room-modal");
+class UIDialog {
+  constructor(element_selector, form_name) {
+    this.elmt = document.querySelector(element_selector);
     this.confirm_button = this.elmt.querySelector(".form__action--primary");
     this.cancel_button = this.elmt.querySelector(".form__action--secondary");
-    this.form = document.forms.item('room-dialog');
+    this.form = document.forms.item(form_name);
 
-    this.inputs = {
-      name: new UIInput('#room-modal__name'),
-      length: new UIInput('#room-modal__length'),
-      width: new UIInput('#room-modal__width'),
-      window_count: new UIInput('#room-modal__window-count')
-    };
+    this.inputs = {};
 
-    this.inputs.name.add_error("Ce nom n'est pas disponible", 'input', (name) => {
-      let test = false;
-      // Get room name
-      for(let room in gen_home.rooms)
-        test = test || room == name;
-      return test;
-    });
-
-    this.checkValidity = this.checkValidity.bind(this);
-    this.block_clicks = this.block_clicks.bind(this);
-    this.on_confirm = this.on_confirm.bind(this);
-    this.on_cancel = this.on_cancel.bind(this);
     this.confirm = () => {};
     this.cancel = () => {};
+
+    this.checkValidity = this.checkValidity.bind(this);
+    this.show = this.show.bind(this);
+    this.hide = this.hide.bind(this);
+    this.on_confirm = this.on_confirm.bind(this);
+    this.on_cancel = this.on_cancel.bind(this);
+    this.block_clicks = this.block_clicks.bind(this);
   }
 
   checkValidity() {
@@ -250,19 +249,7 @@ class UIRoomDialog {
     return validity;
   }
 
-  show(confirm, cancel, room) {
-    this.elmt.classList.add('modal--visible');
-
-
-    if(room) {
-      console.log('Room:', room);
-
-      this.form.name.value = room.name;
-      this.form.width.value = room.width;
-      this.form.length.value = room.length;
-      this.form.window_count.value = room.window_count;
-    }
-    
+  show(confirm, cancel) {
     for(var uiinput in this.inputs)
       this.inputs[uiinput].auto();
 
@@ -270,6 +257,8 @@ class UIRoomDialog {
     this.cancel = cancel.bind(this);
 
     this.add_event_listeners();
+
+    this.elmt.classList.add('modal--visible');
   }
 
   hide() {
@@ -295,6 +284,56 @@ class UIRoomDialog {
     this.form.removeEventListener('submit', this.on_confirm);
   }
 
+  on_cancel() {
+    this.cancel();
+  }
+
+  block_clicks (evt) {
+    evt.stopPropagation();
+  }
+}
+
+class UIRoomDialog extends UIDialog {
+  constructor() {
+    super('.js-room-modal', 'room-dialog');
+
+    this.inputs = {
+      name: new UIInput('#room-modal__name'),
+      length: new UIInput('#room-modal__length'),
+      width: new UIInput('#room-modal__width'),
+      window_count: new UIInput('#room-modal__window-count')
+    };
+
+    this.inputs.name.add_error("Ce nom n'est pas disponible", 'input', (name) => {
+      let test = false;
+      if(name == gen_home.currentRoom)
+        return test;
+      // Get room name
+      for(let room in gen_home.rooms)
+        test = test || room == name;
+      return test;
+    });
+  }
+
+  show(confirm, cancel, room) {
+
+    if(room) {
+      console.log('Room:', room);
+
+      for(var prop in room) {
+        if(this.form[prop])
+          this.form[prop].value = room[prop];
+      }
+
+      this.form.name.value = room.name;
+      this.form.width.value = room.width;
+      this.form.length.value = room.length;
+      this.form.window_count.value = room.window_count;
+    }
+
+    super.show(confirm, cancel);
+  }
+
   on_confirm(evt) {
     evt.preventDefault();
 
@@ -309,13 +348,11 @@ class UIRoomDialog {
 
     this.confirm({name, width, length, window_count});
   }
+}
 
-  on_cancel() {
-    this.cancel();
-  }
-
-  block_clicks (evt) {
-    evt.stopPropagation();
+class UIConstraintDialog extends UIDialog {
+  constructor() {
+    super('.js-constraint-modal', 'constraint-dialog');
   }
 }
 
