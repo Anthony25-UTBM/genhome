@@ -2,14 +2,17 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
   <title>GenHome</title>
   <link rel="stylesheet" type="text/css" href="styles/style.css">
+  <link rel="stylesheet" type="text/css" href="styles/drawing-style.css">
   <link rel="stylesheet" type="text/css" href="styles/icons/material-icons.css">
 </head>
 <body>
   <main class="dashboard">
     <section class="drawing__container">
-
+        <svg id="drawing">
+        </svg>
     </section>
     <section class="toolbar__container">
       <nav class="js-toolbar toolbar">
@@ -94,8 +97,10 @@
     </article>
   </aside>
 
-  <script type="text/javascript" src="scripts/drawing.js"></script>
   <script type="text/javascript" src="scripts/ui-elements.js"></script>
   <script type="text/javascript" src="scripts/main.js"></script>
+
+  <script type="text/javascript" src="scripts/libs/svg.js"></script>
+  <script type="text/javascript" src="scripts/drawing.js"></script>
 </body>
 </html>

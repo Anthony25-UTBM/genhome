@@ -1,0 +1,12 @@
+.drawing__room {
+    stroke: black;
+    fill: #FAFAFA;
+    /*INNER_WALL_W*/
+    stroke-width: 4; 
+}
+
+.drawing__opening {
+    fill: #FAFAFA;
+    stroke: grey;
+    stroke-width: 1;
+}
