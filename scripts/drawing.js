@@ -6,7 +6,7 @@ drawing = {};
  * exemple of room & openings description
  */
 
-var openings = [
+var temp_openings = [
     {
         posx : 100,
         posy : 150,
@@ -19,7 +19,7 @@ var openings = [
     }
 ];
 
-var rooms = [
+var temp_rooms = [
     {
         name : "chambre 1" ,
         height : 150,
@@ -78,5 +78,5 @@ drawing.draw_openings = function( openings ) {
 
 }()) // end scope
 
-drawing.draw_rooms(rooms);
-drawing.draw_openings(openings);
+drawing.draw_rooms(temp_rooms);
+drawing.draw_openings(temp_openings);
