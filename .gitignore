@@ -1,2 +1,8 @@
 # vim temporary files
 *.swp
+
+# Gulp workflow
+
+node_modules/
+gulpfile.js
+package.json
