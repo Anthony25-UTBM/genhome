@@ -59,6 +59,7 @@
           </div>
         </div>
         <div class="form__actions">
+        <!-- Change label function of create or edit -->
           <button class="form__action form__action--primary">Create</button>
           <button class="form__action form__action--secondary" type="button">Cancel</button>
         </div>
@@ -68,7 +69,13 @@
       <h3 class="modal__header">Ajout d'une contrainte</h3>
       <form class="modal__form" name="constraint-dialog">
         <div class="form__group">
-
+          <div class="input__container">
+            <select class="form__select" id="constraint-modal__first-room" name="first-room" required>
+              <option selected disabled value="">Première Pièce</option>
+              <option>Chambre 1</option>
+              <option>Chambre 2</option>
+            </select>
+          </div>
         </div>
         <div class="form__group">
         

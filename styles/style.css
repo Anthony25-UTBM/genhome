@@ -218,6 +218,70 @@ html, body {
   border-width: 2px;
 }
 
+.form__select {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  transition: border-color .2s ease;
+
+  height: 32px;
+  flex: 1 1 auto;
+
+  -webkit-appearance: textfield;
+}
+
+.form__select:focus {
+  border-color: #689F38;
+  border-width: 2px;
+}
+
+.form__select:hover {
+  background-color: #EAEAEA;
+  cursor: pointer;
+}
+
+.form-select__list-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.form-select__list {
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+  position: absolute;
+  transition: opacity .2s;
+  transform: translateY(-100vw);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+  opacity: 0;
+
+  background-color: white;
+}
+
+.form-select__list--visible {
+  max-height: none;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.form-select__list--visible::before {
+  opacity: 1;
+}
+
+.form-select__list-item {
+  height: 48px;
+  padding: 8px;
+  line-height: 32px;
+}
+
+.form-select__list-item:hover {
+  background-color: #EAEAEA;
+}
+
 .form__error {
   font-size: 12px;
   line-height: 20px;

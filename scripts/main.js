@@ -41,6 +41,7 @@ class GenHome {
 
   add_constraint() {
     console.log("Adding Constraint");
+    this.dialogs.show_constraint();
     // this.dialogs.show_room((room) => {
     //   this.rooms[room.name] = room;
     //   this.toolbar.room_list.add_room(room.name);
