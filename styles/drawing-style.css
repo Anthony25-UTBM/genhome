@@ -6,7 +6,18 @@
 }
 
 .drawing__opening {
-    fill: #FAFAFA;
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+}
+
+.drawing__opening_holes {
+    fill: black;
+    fill-opacity: 0.5;
+}
+
+.drawing__door {
+    fill: none;
     stroke: grey;
     stroke-width: 1;
 }
