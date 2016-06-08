@@ -9,7 +9,7 @@ class GenHome {
   }
 
   add_event_listeners() {
-    
+
   }
 
   add_room() {
@@ -50,3 +50,5 @@ class GenHome {
 }
 
 const gen_home = new GenHome();
+
+// vim: set ts=2 sw=2:

@@ -70,7 +70,7 @@ drawing.draw_openings = function( openings ) {
         }
         svg_area
             .rect(w, h)
-            .x(o.posx - INNER_WALL_W /2 ) 
+            .x(o.posx - INNER_WALL_W /2 )
             .y(o.posy - INNER_WALL_W /2 )
             .addClass("drawing__opening");
     }
@@ -80,3 +80,5 @@ drawing.draw_openings = function( openings ) {
 
 drawing.draw_rooms(temp_rooms);
 drawing.draw_openings(temp_openings);
+
+// vim: set ts=2 sw=2:
