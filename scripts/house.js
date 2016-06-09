@@ -1,11 +1,13 @@
 "using strict";
 
 class House {
-  constructor(args) {
-    // code
+  constructor(rooms=[]) {
+    this.rooms = rooms;
   }
 
-  // methods
+  organize(stop_at_1st_result=false) {
+
+  }
 }
 
 // vim: set ts=2 sw=2:
