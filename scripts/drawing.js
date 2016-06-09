@@ -77,13 +77,32 @@ const INNER_WALL_W = 4;
 const OPENING_SIZE = 30;
 const SVG_ID = 'drawing';
 
+var room_colors = [
+  "blue",
+  "green",
+  "yellow",
+  "red",
+]
+
 var svg_area = SVG(SVG_ID).size("100%", "100%");
 
 //layer containing objects
-var wall_layer = svg_area.group();
-var floor_layer = svg_area.group();
-var opening_layer = svg_area.group();
-var opening_holes_layer = svg_area.group();
+//the order matters when drawing
+var floor_layer = svg_area
+    .group()
+    .addClass("drawing__room_floor");
+var wall_layer = svg_area
+    .group()
+    .addClass("drawing__room");
+var opening_layer = svg_area
+    .group()
+    .addClass("drawing__opening");
+var hole_mask_layer = svg_area
+    .group()
+    .addClass("drawing__opening_holes");
+var text_layer = svg_area
+    .group()
+    .addClass("drawing__text");
 
 //the canvas max and min values, used when creating masks
 var canvas_limit = {
@@ -91,7 +110,7 @@ var canvas_limit = {
     min_y : 0,
     max_x : 0,
     max_y : 0,
-}
+};
 
 //contains methods to draw different openings on the canvas
 var opening_model = {}
@@ -99,19 +118,18 @@ opening_model.door = function(svg_area, posx, posy, size, orientation) {
     //posx passed to the function is the middle of the door
     var x, y
     if (orientation == "horizontal") {
-        x = posx - (size/2)
-        y = posy
+        x = posx - (size/2);
+        y = posy;
     }
     else {
-        x = posx
-        y = posy - (size/2)
+        x = posx;
+        y = posy - (size/2);
     }
     return svg_area
         .path(" M "+x+" "+y
                 + " h "+size
                 + " c "+0+" "+(size/2)+" "+(-size/2)+" "+size+" "+(-size)+" "+size
                 + " v "+(-size))
-        .addClass("drawing__opening")
 }
 
 opening_model.window = function(svg_area, posx, posy, size, orientation) {
@@ -131,7 +149,6 @@ opening_model.window = function(svg_area, posx, posy, size, orientation) {
             .x( posx - INNER_WALL_W / 2 )
             .y( posy - (size/2) )
     }
-    window_shape.addClass("drawing__opening");
 
     return window_shape
 }
@@ -142,12 +159,19 @@ drawing.draw_rooms = function( rooms ) {
     for (var i=0; i<rooms.length; i++) {
         var r = rooms[i];
 
+        var floor_rect = svg_area
+           .rect(r.width , r.height )
+           .x(r.posx)
+           .y(r.posy)
+           .fill(room_colors[ i % room_colors.length ]);
+
+        floor_layer.add(floor_rect);
+
         //draw the walls
         var room_rect = svg_area
            .rect(r.width , r.height )
            .x(r.posx)
            .y(r.posy)
-           .addClass("drawing__room");
         
         wall_layer.add(room_rect)
 
@@ -207,7 +231,8 @@ drawing.draw_openings = function( openings ) {
 
     var mask = svg_area
         .path(holes_path)
-        .addClass("drawing__opening_holes");
+
+    hole_mask_layer.add(mask);
 
     wall_layer.clipWith(mask);
 }
