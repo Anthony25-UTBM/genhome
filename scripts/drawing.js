@@ -300,7 +300,7 @@ var temp_rooms = [
     if( e.deltaY < 0 ) {
       delta = -1;
     }
-    else if ( e.deltaY > 0) {
+    else {
       delta = 1;
     }
 
