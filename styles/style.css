@@ -7,6 +7,8 @@ html, body {
   padding: 0;
   width: 100vw;
   height: 100vh;
+  /* prevent horizontal overflow when vertical scrollbar is present*/
+  max-width : 100%;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -22,8 +24,15 @@ html, body {
 }
 
 .drawing__container {
+  height : 100%;
+  width : 100%;
   background: #FAFAFA;
   flex: 1;
+}
+
+.drawing__container svg {
+  height : 100%;
+  width : 100%;
 }
 
 .toolbar__container {
