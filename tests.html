@@ -18,7 +18,8 @@
   <script type="text/javascript" src="scripts/jam.js"></script>
 
   <script>mocha.setup('bdd')</script>
-  <script src="scripts/tests/test-jam.js"></script>
+  <script>var expect = chai.expect;</script>
+  <script src="spec/jam.spec.js"></script>
   <script>mocha.run();</script>
 </body>
 </html>
