@@ -62,7 +62,7 @@ var temp_rooms = [
     posy : 100
   },
   {
-    name : "salon",
+    name : "cuisine",
     height : 150,
     width : 250,
     posx : 300,
@@ -75,6 +75,7 @@ var temp_rooms = [
   const INNER_WALL_W = 4;
   const OPENING_SIZE = 30;
   const SVG_ID = 'drawing';
+  const TEXT_OFFSET = 40;
 
   var room_colors = [
     "blue",
@@ -111,8 +112,25 @@ var temp_rooms = [
     max_y : 0,
   };
 
-  //contains methods to draw different openings on the canvas
+  function update_canvas_limits(posx, posy, width, height) {
+      if( (posx - INNER_WALL_W) < canvas_limit.min_x ){
+        canvas_limit.min_x = (posx - INNER_WALL_W);
+      }
+      if( (posy - INNER_WALL_W) < canvas_limit.min_y ){
+        canvas_limit.min_y = (posy - INNER_WALL_W);
+      }
+
+      if( (posx + INNER_WALL_W + width) > canvas_limit.max_x ){
+        canvas_limit.max_x = (posx + INNER_WALL_W + width);
+      }
+      if( (posy + INNER_WALL_W + height) > canvas_limit.max_y ){
+        canvas_limit.max_y = (posy + INNER_WALL_W + height);
+      }
+  }
+
+  //methods to draw openings on the canvas
   var opening_model = {};
+
   opening_model.door = function(svg_area, posx, posy, size, orientation) {
     //posx passed to the function is the middle of the door
     var x, y;
@@ -152,6 +170,7 @@ var temp_rooms = [
     return window_shape
   }
 
+
   //public methods
   drawing.draw_rooms = function( rooms ) {
 
@@ -174,20 +193,16 @@ var temp_rooms = [
 
       wall_layer.add(room_rect);
 
-      //update the canvas size
-      if( (r.posx - INNER_WALL_W) < canvas_limit.min_x ){
-        canvas_limit.min_x = (r.posx - INNER_WALL_W);
-      }
-      if( (r.posy - INNER_WALL_W) < canvas_limit.min_y ){
-        canvas_limit.min_y = (r.posy - INNER_WALL_W);
-      }
+      update_canvas_limits(r.posx, r.posy, r.width, r.height);
 
-      if( (r.posx + INNER_WALL_W + r.width) > canvas_limit.max_x ){
-        canvas_limit.max_x = (r.posx + INNER_WALL_W + r.width);
-      }
-      if( (r.posy + INNER_WALL_W + r.height) > canvas_limit.max_y ){
-        canvas_limit.max_y = (r.posy + INNER_WALL_W + r.height);
-      }
+      //draw the text
+      var room_name = svg_area
+        .text(r.name)
+        .x(r.posx + TEXT_OFFSET )
+        .y(r.posy + TEXT_OFFSET );
+
+      text_layer.add(room_name);
+      
     }
   }
 

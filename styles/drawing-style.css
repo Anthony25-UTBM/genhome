@@ -16,12 +16,6 @@
     fill-opacity: 0.5;
 }
 
-.drawing__door {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-}
-
 .drawing__room_floor {
     fill-opacity :0.3;
 }
