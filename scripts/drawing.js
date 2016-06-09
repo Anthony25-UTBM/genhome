@@ -11,18 +11,40 @@ var temp_openings = [
     {
         posx : 100,
         posy : 150,
-        orientation : "vertical"
+        orientation : "vertical",
+        type : "door"
     },
     {
         posx : 300,
         posy : 150,
-        orientation : "vertical"
+        orientation : "vertical",
+        type : "door"
     },
     {
         posx : 350,
         posy : 250,
-        orientation : "horizontal"
+        orientation : "horizontal",
+        type : "door"
+    },
+    {
+        posx : 350,
+        posy : 400,
+        orientation : "horizontal",
+        type : "window"
+    },
+    {
+        posx : 500,
+        posy : 400,
+        orientation : "horizontal",
+        type : "window"
+    },
+    {
+        posx : 300,
+        posy : 320,
+        orientation : "vertical",
+        type : "window"
     }
+
 ];
 
 var temp_rooms = [
@@ -89,7 +111,29 @@ opening_model.door = function(svg_area, posx, posy, size, orientation) {
                 + " h "+size
                 + " c "+0+" "+(size/2)+" "+(-size/2)+" "+size+" "+(-size)+" "+size
                 + " v "+(-size))
-        .addClass("drawing__door");
+        .addClass("drawing__opening")
+}
+
+opening_model.window = function(svg_area, posx, posy, size, orientation) {
+    //posx passed to the function is the middle of the door
+    var x, y
+    var window_shape
+
+    if (orientation == "horizontal") {
+        window_shape = svg_area
+            .rect(size, INNER_WALL_W)
+            .x(posx - (size/2) )
+            .y(posy - INNER_WALL_W / 2 )
+    }
+    else {
+        window_shape = svg_area
+            .rect(INNER_WALL_W, size)
+            .x( posx - INNER_WALL_W / 2 )
+            .y( posy - (size/2) )
+    }
+    window_shape.addClass("drawing__opening");
+
+    return window_shape
 }
 
 //public methods
@@ -133,7 +177,7 @@ drawing.draw_openings = function( openings ) {
     for (var i=0; i<openings.length; i++) {
         var o = openings[i];
 
-        var opening_shape = opening_model.door(
+        var opening_shape = opening_model[o.type](
                 svg_area,
                 o.posx, o.posy,
                 OPENING_SIZE,
@@ -142,7 +186,8 @@ drawing.draw_openings = function( openings ) {
         opening_layer.add(opening_shape)
 
         if(o.orientation == "horizontal"){
-            holes_path += "M " + (o.posx - (OPENING_SIZE/2))+" "+ (o.posy - INNER_WALL_W)
+            holes_path += "M " + (o.posx - (OPENING_SIZE/2))
+                + " "   + (o.posy - INNER_WALL_W)
                 + " v " + INNER_WALL_W*2
                 + " h " + OPENING_SIZE
                 + " v " + (-INNER_WALL_W*2)
@@ -150,7 +195,8 @@ drawing.draw_openings = function( openings ) {
                 + "z"
         }
         else {
-            holes_path += "M " + (o.posx - INNER_WALL_W) +" "+ (o.posy - (OPENING_SIZE/2))
+            holes_path += "M " + (o.posx - INNER_WALL_W) 
+                + "   " + (o.posy - (OPENING_SIZE/2))
                 + " v " + OPENING_SIZE
                 + " h " + INNER_WALL_W*2
                 + " v " + (-OPENING_SIZE)

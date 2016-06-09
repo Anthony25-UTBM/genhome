@@ -1,6 +1,6 @@
 .drawing__room {
     stroke: black;
-    fill: #FAFAFA;
+    fill: none;
     /*INNER_WALL_W*/
     stroke-width: 4; 
 }
