@@ -240,6 +240,9 @@ class UISelectList {
     this.on_transition_end = this.on_transition_end.bind(this);
     this.on_observe = this.on_observe.bind(this);
 
+    const clientRect = this.ui_select.input.getBoundingClientRect();
+    this.list.style.width = `${clientRect.width}px`;
+
     this.add_event_listeners();
 
     this.sync();
@@ -263,7 +266,6 @@ class UISelectList {
 
     const clientRect = this.ui_select.input.getBoundingClientRect();
 
-    this.list.style.width = `${clientRect.width}px`;
     this.list.style.transform = `translate(${clientRect.left}px, ${clientRect.top - 8}px)`;
   }
 

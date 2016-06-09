@@ -1,0 +1,26 @@
+{
+  "name": "genhome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anthony25-UTBM/genhome.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anthony25-UTBM/genhome/issues"
+  },
+  "homepage": "https://github.com/Anthony25-UTBM/genhome#readme",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "wdio-dot-reporter": "0.0.5",
+    "wdio-jasmine-framework": "^0.2.1",
+    "webdriverio": "^4.0.9"
+  }
+}
