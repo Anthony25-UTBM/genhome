@@ -9,9 +9,9 @@ var drawing = {};
 
 var temp_openings = [
   {
-    posx : 100,
-    posy : 150,
-    orientation : "vertical",
+    posx : 450,
+    posy : 100,
+    orientation : "horizontal",
     type : "door"
   },
   {
@@ -170,7 +170,6 @@ var temp_rooms = [
     return window_shape
   }
 
-
   //public methods
   drawing.draw_rooms = function( rooms ) {
 
@@ -254,6 +253,39 @@ var temp_rooms = [
 
     wall_layer.clipWith(mask);
   }
+
+  //drag events on the drawing
+  var svg_element = document.getElementById(SVG_ID);
+
+  svg_element.onmousedown = function(e) {
+    if(e.buttons == 1){
+
+      var start_box = svg_area.viewbox();
+      var start_e = { clientX : e.clientX, clientY : e.clientY };
+
+      svg_element.onmousemove = function(e) {
+        var new_box = {
+          x : start_box.x - (e.clientX - start_e.clientX),
+          y : start_box.y - (e.clientY - start_e.clientY),
+          width : start_box.width,
+          height : start_box.height
+        }
+        svg_area.viewbox(new_box);
+      }
+
+    }
+  }
+
+  svg_element.onmouseleave = function(e) {
+    svg_element.onmousemove = null;
+  }
+
+  svg_element.onmouseup = function(e) {
+    if(e.buttons != 1){
+        svg_element.onmousemove = null;
+    }
+  }
+
 
 }()) // end scope
 
