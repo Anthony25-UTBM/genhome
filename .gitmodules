@@ -1,0 +1,9 @@
+[submodule "scripts/libs/bee.js"]
+	path = scripts/libs/bee.js
+	url = https://github.com/marco-ponds/Bee.js.git
+[submodule "scripts/libs/chai"]
+	path = scripts/libs/chai
+	url = https://github.com/chaijs/chai.git
+[submodule "scripts/libs/mocha"]
+	path = scripts/libs/mocha
+	url = https://github.com/mochajs/mocha.git
