@@ -76,6 +76,7 @@ var temp_rooms = [
   const OPENING_SIZE = 30;
   const SVG_ID = 'drawing';
   const TEXT_OFFSET = 40;
+  const ZOOM_STEP = 0.1;
 
   var room_colors = [
     "blue",
@@ -256,17 +257,22 @@ var temp_rooms = [
 
   //drag events on the drawing
   var svg_element = document.getElementById(SVG_ID);
+  var ref_viewbox = svg_area.viewbox();
+  var scaling_factor = 1;
 
   svg_element.onmousedown = function(e) {
     if(e.buttons == 1){
 
       var start_box = svg_area.viewbox();
-      var start_e = { clientX : e.clientX, clientY : e.clientY };
+      var start_e = {
+        clientX : e.clientX,
+        clientY : e.clientY
+      };
 
       svg_element.onmousemove = function(e) {
         var new_box = {
-          x : start_box.x - (e.clientX - start_e.clientX),
-          y : start_box.y - (e.clientY - start_e.clientY),
+          x : (start_box.x - (e.clientX - start_e.clientX ) * scaling_factor) ,
+          y : (start_box.y - (e.clientY - start_e.clientY ) * scaling_factor) ,
           width : start_box.width,
           height : start_box.height
         }
@@ -284,6 +290,37 @@ var temp_rooms = [
     if(e.buttons != 1){
         svg_element.onmousemove = null;
     }
+  }
+
+  svg_element.onwheel = function(e) {
+    var start_viewbox = svg_area.viewbox();
+    var new_viewbox = {};
+    var delta;
+    
+    if( e.deltaY < 0 ) {
+      delta = -1;
+    }
+    else if ( e.deltaY > 0) {
+      delta = 1;
+    }
+
+    scaling_factor += ZOOM_STEP * delta ;
+
+    new_viewbox.height = ref_viewbox.height * scaling_factor;
+    new_viewbox.width  = ref_viewbox.width  * scaling_factor;
+    new_viewbox.x
+      = start_viewbox.x + (( start_viewbox.width - new_viewbox.width ) /2)
+    new_viewbox.y
+      = start_viewbox.y + (( start_viewbox.height - new_viewbox.height ) /2)
+
+    console.log(ref_viewbox);
+    console.log(new_viewbox);
+
+    if (new_viewbox.height <= 0 || new_viewbox.width <= 0) {
+        return;
+    }
+
+    svg_area.viewbox(new_viewbox);
   }
 
 
